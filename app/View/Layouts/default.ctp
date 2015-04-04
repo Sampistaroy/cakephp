@@ -1,89 +1,86 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
-?>
 <!DOCTYPE html>
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $this->fetch('title'); ?>
+		<?php
+			$this->assign('title', 'GW');
+			echo $this->fetch('title');
+		?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
+		echo $this->Html->meta(
+    'favicon.ico',
+    '/favicon.ico',
+    array('type' => 'icon'));
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css(array('bootstrap.min','offcanvas','style'));
+		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js');
+		echo $this->Html->script(array('bootstrap/bootstrap.min','bootstrap/offcanvas'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+
+		$this->Js->JqueryEngine->jQueryObject = '$j';
+		echo $this->Html->scriptBlock(
+    		'var $j = jQuery.noConflict();',
+    		array('inline' => false)
+		);
 	?>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
+	<nav class="navbar navbar-fixed-top navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
 
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<?php echo '<li class="active">'.$this->Html->link(
+                		'Accueil',
+                		array('controller' => 'pages', 'action' => 'index') 
+                	).'</li>';?>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<?php if(!AuthComponent::user('id')): ?>
+					<?php echo '<li>'.$this->Html->link(
+                		'Connexion',
+                		array('controller' => 'users', 'action' => 'login') 
+                	).'</li>';?>
+					<?php echo '<li>'.$this->Html->link(
+                		'Inscription',
+                		array('controller' => 'users', 'action' => 'signup') 
+                	).'</li>';?>
+                	<?php else: ?>
+					<?php echo '<li>'.$this->Html->link(
+                		'Deconnection',
+                		array('controller' => 'users', 'action' => 'logout') 
+                	).'</li>';?>
+                <?php endif; ?>
+				</ul>
+			</div><!-- /.nav-collapse -->
+		</div><!-- /.container -->
+	</nav><!-- /.navbar -->
+	<div class="container">
+		<div class="row row-offcanvas row-offcanvas-right">
+			<div id="content">
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
-			huhu
-			<?php if(Configure::read('debug')>= 2): ?>
-	<table class="cake-sql-log" cellspacing="0" border=0>
-		<caption>
-			Contenue de la session
-		</caption>
-		<thead>
-			<tr><th>$session->read();</th></tr>
-		</thead>
-		<tbody>
-			<tbody>
-				<tr>
-					<td><?php debug($this->Session->read()); ?>
-					</td>
-				</tr>
-			</tbody>
-		</tbody>
-	</table>
-	<style type="text/css">
-	.cake-sql-log{width:100%;background-color: #000;color:#FFF;border-collapse:collapse; text-align:left;}
-	.cake-sql-log caption {background-color: #900;color: #FFF;}
-	.cake-sql-log td {padding:3px;border:1px solid #999;background-color: #EEE; color: #000;}
-	</style>
-	<?php echo $this->element('sql_dump'); ?>
-	<?php endif; ?>
-
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
+			</div>
+			<div id="footer">
+	    		<p style="background:none">&copy; GWAoS 2015</p>
+			</div>
 		</div>
 	</div>
+	<?php echo $this->Session->flash(); ?>
 	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

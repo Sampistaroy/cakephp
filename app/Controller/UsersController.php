@@ -30,12 +30,12 @@ class UsersController extends AppController {
 				//génération d'un message de réussite pour l'utilisateur
 
 				debug($link);
-				$this->Session->setFlash("votre utilisateur à bien été ajouté.'. echo $link.' ","motif");
+				$this->Session->setFlash("<strong>Bravo</strong> votre utilisateur à bien été ajouté.'. echo $link.' ","motif");
 				$this->redirect('/users/signup');
 
 			}else{
 				//génération d'un message d'echec de l'ajout d'utilisateur
-				$this->Session->setFlash("Merci de corriger vos erreurs.","motif", array('type'=>'error'));
+				$this->Session->setFlash("Merci de <strong>corriger</strong> vos erreurs.","motif", array('type'=>'danger'));
 			}
 		}
 
@@ -43,6 +43,7 @@ class UsersController extends AppController {
 
 	function logout(){
 		$this->Auth->logout();
+		$this->redirect($this->referer());
 	}
 
 		/** active grace à un lien generé dans la fonction users/signup lors de l'inscription un nouvel utilisateur en bdd **/
