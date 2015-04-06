@@ -12,26 +12,26 @@ class UsersController extends AppController {
 			$d['User']['id'] = null;
 			// si le pass n'est pas vide on le hash
 			if(!empty($d['User']['password'])){
-				$d['User']['password'] = Security::hash($d['User']['password']);
+				$d['User']['password'] = Security::hash($d['User']['password'],null,true);
 			}
+			//génération du lien de validation
+			$link = md5($d['User']['password']);
 			// sauvegarde en bdd
-			if($this->User->save($d,true,array('username','password','mail'))){
-				//génération du lien de validation
-				$link = md5($d['User']['password']);
-				/*/envoi d'un email.
-				App::uses('CakeEmail','Network/Email');//chargement du plugin("plugin") CakeEmail
-				$mail = new CakeEmail();
-				$mail->from('noreply@dwargcrew.com')
-					->to($d['User']['mail'])
-					->subject('Test :: inscription')
-					->emailFormat('signup')
-					->viewVars(array('username'=>$d['User']['username'], '$link'=> $link))
-					->send();*/
-				//génération d'un message de réussite pour l'utilisateur
+			if($result=$this->User->save($d,true,array('username','password','mail'))){
+				if($this->Auth->login($result['User'])){
+			//génération d'un message de réussite pour l'utilisateur
+				$this->Session->setFlash("<strong>Bravo</strong> votre utilisateur à bien été ajouté et vous etes connecté.'. echo $link.' ","motif");
+			}
+			/*/envoi d'un email.
+			App::uses('CakeEmail','Network/Email');//chargement du plugin("plugin") CakeEmail
+			$mail = new CakeEmail();
+			$mail->from('noreply@dwargcrew.com')
+				->to($d['User']['mail'])
+				->subject('Test :: inscription')
+				->emailFormat('signup')
+				->viewVars(array('username'=>$d['User']['username'], '$link'=> $link))
+				->send();*/
 
-				debug($link);
-				$this->Session->setFlash("<strong>Bravo</strong> votre utilisateur à bien été ajouté.'. echo $link.' ","motif");
-				$this->redirect('/users/signup');
 
 			}else{
 				//génération d'un message d'echec de l'ajout d'utilisateur
@@ -41,8 +41,52 @@ class UsersController extends AppController {
 
 	}
 
+	function login(){
+		// verif si il y a bien une requete POST 
+		if($this->request->is('post')){
+			
+			// recup les infos du POST
+			if($this->Auth->login()){
+				$this->Session->setFlash("<strong>Bravo</strong> vous etes connecté.","motif");
+				$this->redirect('/');
+			}else{
+				$this->Session->setFlash("identifiants incorrects.","motif", array('type'=>'warning'));
+				debug($this->request->data['User']['password']);
+			}
+		}
+	}
+
+	function edit(){
+		$user_id = $this->Auth->user('id');
+		if(!$user_id){
+			$this->redirect('/');
+			die();
+		}
+		$this->User->id = $user_id;
+		// verif si il y a bien une requete POST 
+		if($this->request->is('put')){
+			$d= $this->request->data;
+			$d['User']['id'] = $user_id;
+			if (!empty($d['User']['pass1'])) {
+				if ($d['User']['pass1']==$d['User']['pass2']) {
+					$d['User']['password'] =  Security::hash($d['User']['pass1'],null,true);
+				}else{
+					$this->User->validationErrors['pass2']=array("impossible sauv profil edition.");
+				}
+			}
+			if($this->User->save($d, true,array('password'))){
+				$this->Session->setFlash("votre profil est bien mis a jour", "motif");
+			}else{
+				$this->Session->setFlash("impossible sauv profil edition.","motif", array('type'=>'danger'));
+			}
+		}else{
+			$this->request->data = $this->User->read();
+		}
+	}
+
 	function logout(){
 		$this->Auth->logout();
+				$this->Session->setFlash("<strong>Au revoir</strong> vous etes déconnecté.","motif");
 		$this->redirect($this->referer());
 	}
 
