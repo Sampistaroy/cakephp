@@ -9,4 +9,4 @@
 <p>4. finis l'auth, (pas le renvoie de mot de pass car pas de serveur mail présent),  je passe l'autorisation.</p>
 
 ##Hébergement
-<p><http://www.wisp-gaming.com></p>
+<p>[demo/test](http://www.wisp-gaming.com "lien vers ma demo/test")<></p>
