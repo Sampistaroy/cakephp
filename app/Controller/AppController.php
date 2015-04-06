@@ -31,9 +31,13 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-	public $components = array('Session', 'Cookie', 'Auth');
-	function beforeFilter(){
+	public $components = array('Session', 'Cookie', 
+		'Auth'=> array(
+	        'authorize' => array('Controller') // nous activons la fonction isAuthorized($user)
+	    ));
+	public function beforeFilter(){
 		$this->Auth->allow();
 
 	}
+
 }
