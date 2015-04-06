@@ -86,12 +86,19 @@
 			<?php echo $this->fetch('content'); ?>
 			</div>
 			<div id="footer">
+<<<<<<< HEAD
 				<hr>
+=======
+				<!--<pre><?php // var_dump(get_defined_vars()); ?></pre>-->
+>>>>>>> be883d671b25a895299e7399a60c4163995b5d83
 	    		<p style="background:none">&copy; GWAoS 2015</p>
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
 	<!--<pre><?php // var_dump(get_defined_vars()); ?></pre>-->
+=======
+>>>>>>> be883d671b25a895299e7399a60c4163995b5d83
 	<?php //echo $this->Session->flash(); ?>
 	<?php //echo $this->element('sql_dump'); ?>
 </body>
