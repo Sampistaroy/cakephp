@@ -60,6 +60,10 @@
                 	).'</li>';?>
                 	<?php else: ?>
 					<?php echo '<li>'.$this->Html->link(
+                		'mon compte',
+                		array('controller' => 'users', 'action' => 'edit') 
+                	).'</li>';?>
+					<?php echo '<li>'.$this->Html->link(
                 		'Deconnection',
                 		array('controller' => 'users', 'action' => 'logout') 
                 	).'</li>';?>
@@ -76,11 +80,12 @@
 			<?php echo $this->fetch('content'); ?>
 			</div>
 			<div id="footer">
+				<!--<pre><?php // var_dump(get_defined_vars()); ?></pre>-->
 	    		<p style="background:none">&copy; GWAoS 2015</p>
 			</div>
 		</div>
 	</div>
-	<?php echo $this->Session->flash(); ?>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->Session->flash(); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>
