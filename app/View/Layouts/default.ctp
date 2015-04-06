@@ -75,16 +75,23 @@
 	<div class="container">
 		<div class="row row-offcanvas row-offcanvas-right">
 			<div id="content">
+					<?php echo $this->Html->link(
+                		'page dynamique perso',
+                		array('controller' => 'univers', 'action' => 'index'),
+                		array('class'=>'btn btn-primary') 
+                	);?>
+                	<hr>
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
 			</div>
 			<div id="footer">
-				<!--<pre><?php // var_dump(get_defined_vars()); ?></pre>-->
+				<hr>
 	    		<p style="background:none">&copy; GWAoS 2015</p>
 			</div>
 		</div>
 	</div>
+	<!--<pre><?php // var_dump(get_defined_vars()); ?></pre>-->
 	<?php //echo $this->Session->flash(); ?>
 	<?php //echo $this->element('sql_dump'); ?>
 </body>
