@@ -59,7 +59,7 @@ class UsersController extends AppController {
 	function edit(){
 		$user_id = $this->Auth->user('id');
 		if(!$user_id){
-			$this->redirect('/');
+			$this->redirect('/users/login');
 			die();
 		}
 		$this->User->id = $user_id;

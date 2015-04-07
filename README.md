@@ -11,3 +11,6 @@
 
 ##Hébergement
 <p>[demo/test](http://www.wisp-gaming.com "lien vers ma demo/test")<></p>
+
+###Souhaits à faire:
+<p>Mettre un nombre max d'interface de control, d'univers pour chaque utilisateur. qu'il soit configurable par l'admin.</p>

@@ -40,7 +40,7 @@
         </td>
         <td><?php echo $interf['Interf']['user_id']; ?></td>
         <td><?php
-            if($interf['Interf']['id']!=AuthComponent::user('id_interf')):
+            if($interf['Interf']['id']!=AuthComponent::user('interf_id')):
                 echo $this->Html->link(
                     'mettre principal',
                     array('controller' =>'interves', 'action' => 'setprinc', $interf['Interf']['id'])

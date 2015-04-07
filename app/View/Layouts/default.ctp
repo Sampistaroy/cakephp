@@ -89,7 +89,7 @@
 			</div>
 			<div id="footer">
 	    		<p style="background:none">&copy; GWAoS 2015</p>
-	    		<?php debug($this->request->data); ?>
+	    		<?php debug(AuthComponent::$sessionKey); ?>
 			</div>
 		</div>
 	</div>

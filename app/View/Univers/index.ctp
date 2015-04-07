@@ -7,7 +7,7 @@
 	array('class'=>'btn btn-primary') 
 );?>|
 
-<?php if ($d=AuthComponent::user('id_interf')) :
+<?php if ($d=AuthComponent::user('interf_id')) :
 	echo $this->Html->link(
 		'interface principale',
 		array('controller' => 'interves', 'action' => 'edit', $d),

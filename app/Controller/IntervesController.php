@@ -20,19 +20,22 @@ class IntervesController extends AppController {
         }
 
         $interf = $this->Interf->findById($id);
+        if($interf['Interf']['user_id']==$this->Auth->user('id')){
         if (!$interf) {
             throw new NotFoundException(__('Invalid interface'));
         }
 
         if ($this->request->is(array('put'))) {
             $this->Interf->id = $id;
-            $this->request->data['Interf']['interf_name'];
-            if ($this->Interf->save($this->request->data)) {
-                $this->Session->setFlash('your interf update complet.', "motif");
-                return $this->redirect(array('controller'=>'interves', 'action' => 'index'));
-            }else{
-            $this->Session->setFlash('Unable to update your interf.',"motif", array('type'=>'danger'));
-        }
+	            if ($this->Interf->save($this->request->data)) {
+	                $this->Session->setFlash('your interf update is complet.', "motif");
+	                return $this->redirect(array('controller'=>'interves', 'action' => 'index'));
+	            }else{
+	            	$this->Session->setFlash('Unable to update your interf.',"motif", array('type'=>'danger'));
+        		}
+    		}
+        }else{
+            $this->Session->setFlash('Unable to update du to not equal.',"motif", array('type'=>'danger'));
         }
 
         if (!$this->request->data) {
@@ -40,9 +43,41 @@ class IntervesController extends AppController {
         }
     }
 
-	public function setprinc(){
+	public function setprinc($id = null){
+        $this->loadModel('User');
+        $this->loadModel('Interf');
+        if (!$id) {
+            throw new NotFoundException(__('Invalid interface'));
+        }
 
+        $interf = $this->Interf->findById($id);
+        if (!$interf) {
+                throw new NotFoundException(__('Invalid interface'));
+            }
+        if($interf['Interf']['user_id']==$this->Auth->user('id')){
+            $user_id = $this->Auth->user('id');
+            if(!$user_id){
+                    $this->Session->setFlash('Vous devez etre connecté', "motif", array('type' => "danger"));
+                $this->redirect('/users/login');
+                die();
+            }
+            $this->User->id = $user_id;
+            $d['User']['interf_id']=$interf['Interf']['id'];
+            if($this->User->save($d, true,array('interf_id'))){
+                $this->Session->write('Auth', $this->User->read(null, $this->Auth->User('id')));
+                $this->Session->setFlash('your interf change principal is complet.', "motif");
+                return $this->redirect(array('controller'=>'interves', 'action' => 'index'));
+            }else{
+                $this->Session->setFlash('Unable to update your interf principal.',"motif", array('type'=>'danger'));
+                return $this->redirect(array('controller'=>'interves', 'action' => 'index'));
+            }
+            
+        }
 
+        if (!$this->request->data) {
+            $this->request->data = $interf;
+            return $this->redirect(array('controller'=>'interves', 'action' => 'index'));
+        }
 	}
 
 	public function add() {
