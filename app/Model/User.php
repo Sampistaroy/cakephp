@@ -1,7 +1,6 @@
 <?php
 
 class User extends AppModel {
-
 	// variable tableau avec les differentes regles de validation
 	public $validate = array(
 		'username' => array(

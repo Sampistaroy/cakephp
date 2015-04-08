@@ -11,7 +11,7 @@
 	<?php
 		echo $this->Html->meta(
     'favicon.ico',
-    '/favicon.ico',
+    'favicon/favicon.ico',
     array('type' => 'icon'));
 
 		echo $this->Html->css(array('bootstrap.min','offcanvas','style'));
@@ -75,21 +75,12 @@
 	<div class="container">
 		<div class="row row-offcanvas row-offcanvas-right">
 			<div id="content">
-					<?php if(AuthComponent::user('id')): ?>
-						<?php echo $this->Html->link(
-	                		'page dynamique perso',
-	                		array('controller' => 'univers', 'action' => 'index'),
-	                		array('class'=>'btn btn-primary') 
-	                	);?>
-	                	<hr>
-                	<?php endif; ?>
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
 			</div>
 			<div id="footer">
 	    		<p style="background:none">&copy; GWAoS 2015</p>
-	    		<?php debug(AuthComponent::$sessionKey); ?>
 			</div>
 		</div>
 	</div>
